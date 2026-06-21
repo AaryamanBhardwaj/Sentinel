@@ -9,7 +9,7 @@ RAG without infrastructure overhead, and production-grade observability.
 ```
 ┌──────────────┐     HTTPS      ┌────────────────────┐     Gemini API
 │  React SPA   │ ──────────────>│  API Gateway        │ ──────────────────>
-│  (Vercel)    │                │  + Lambda (Python)  │
+│(S3+CloudFront)│               │  + Lambda (Python)  │
 └──────────────┘                └────────┬───────────-┘
                                          │
                                     Agent Loop
@@ -127,19 +127,22 @@ Minimal React app (Vite + TypeScript):
 - Response display (root cause, confidence, fix, references)
 - History sidebar (localStorage, no auth)
 
-Deployed to Vercel. No auth — it's a demo. Rate limiting is handled at
-API Gateway level (usage plan + API key).
+Deployed to AWS (S3 + CloudFront). No auth — it's a demo. Rate limiting
+is handled at the application level (in-memory per-IP limiter).
 
 ### 6. Infrastructure (`infra/`)
 
 Terraform manages:
-- Lambda function + layer (Python deps)
-- API Gateway (HTTP API v2, single POST endpoint)
+- Lambda function (Python deps uploaded to S3)
+- API Gateway (HTTP API v2)
+- S3 bucket + CloudFront distribution (frontend hosting)
 - IAM roles (least-privilege)
-- CloudWatch log group
+- CloudWatch log groups
+
+CloudFront proxies `/analyze` and `/health` to the API Gateway origin,
+so the frontend makes same-origin requests with no CORS issues.
 
 Designed to be created and torn down with `terraform apply` / `destroy`.
-No persistent resources (no RDS, no ElastiCache, no S3 buckets with data).
 
 ## Request Flow
 
@@ -176,5 +179,5 @@ No persistent resources (no RDS, no ElastiCache, no S3 buckets with data).
 | Lambda (512MB, <60s timeout) | Free tier |
 | API Gateway (1000 requests) | Free tier |
 | CloudWatch Logs | Free tier |
-| Vercel (hobby) | Free |
+| S3 + CloudFront | AWS free tier |
 | **Total** | **$0** |

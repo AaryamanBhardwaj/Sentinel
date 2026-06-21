@@ -2,14 +2,16 @@
 
 AI SRE agent that analyzes logs and stack traces, identifies root causes, and suggests fixes.
 
-Built with Gemini 2.5 Flash (function calling), RAG over a precomputed error-pattern corpus, and a React frontend.
+**Live Demo**: https://d2r49pwqfms6ra.cloudfront.net
+
+Built with Gemini 2.5 Flash (function calling), RAG over a precomputed error-pattern corpus, and a React frontend — fully hosted on AWS.
 
 ## Architecture
 
 ```
-React SPA (Vercel)  →  API Gateway + Lambda (Python)  →  Gemini API
-                                  ↕
-                        Error-pattern KB (RAG)
+React SPA (S3 + CloudFront)  →  API Gateway + Lambda (Python)  →  Gemini API
+                                            ↕
+                                  Error-pattern KB (RAG)
 ```
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for the full design document.
@@ -136,16 +138,17 @@ GEMINI_API_KEY=your-key python3 -m backend.eval.run --cases eval_001,eval_003
 GEMINI_API_KEY=your-key python3 -m backend.agent.cli
 ```
 
-## Deploy to AWS + Vercel
+## Deploy to AWS
 
 ```bash
-# Full deploy (packages Lambda, applies Terraform, builds frontend)
+# Prerequisites: AWS CLI + Terraform configured
+brew install awscli hashicorp/tap/terraform
+aws configure
+
+# Full deploy (packages Lambda, applies Terraform, builds frontend, uploads to S3)
 GEMINI_API_KEY=your-key ./scripts/deploy.sh
 
-# Deploy frontend to Vercel
-cd frontend && npx vercel --prod
-
-# Tear down
+# Tear down all AWS resources
 cd infra && terraform destroy -var="gemini_api_key=$GEMINI_API_KEY"
 ```
 
@@ -154,9 +157,9 @@ cd infra && terraform destroy -var="gemini_api_key=$GEMINI_API_KEY"
 | Component | Monthly (demo usage) |
 |-----------|---------------------|
 | Gemini 2.5 Flash | Free tier |
-| Lambda + API Gateway | Free tier |
-| CloudWatch | Free tier |
-| Vercel | Free (hobby) |
+| Lambda + API Gateway | AWS free tier |
+| S3 + CloudFront | AWS free tier |
+| CloudWatch | AWS free tier |
 
 ## License
 
@@ -168,5 +171,5 @@ This project is proprietary. You may view the source code, but copying, modifyin
 - **Backend**: Python, FastAPI, Mangum
 - **Frontend**: React, Vite, TypeScript
 - **RAG**: scikit-learn TF-IDF, numpy, cosine similarity
-- **Infra**: Terraform, AWS Lambda, API Gateway
-- **Deploy**: Vercel (frontend), AWS (backend)
+- **Infra**: Terraform, AWS Lambda, API Gateway, S3, CloudFront
+- **Deploy**: Fully hosted on AWS

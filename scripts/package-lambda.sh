@@ -13,7 +13,7 @@ rm -rf "$BUILD_DIR" "$OUTPUT"
 mkdir -p "$BUILD_DIR" "$PROJECT_ROOT/dist"
 
 echo "==> Installing Python dependencies..."
-pip install \
+pip3 install \
   --target "$BUILD_DIR" \
   --platform manylinux2014_x86_64 \
   --implementation cp \
@@ -21,7 +21,7 @@ pip install \
   --only-binary=:all: \
   -r "$PROJECT_ROOT/backend/requirements.txt" \
   --quiet 2>/dev/null || \
-pip install \
+pip3 install \
   --target "$BUILD_DIR" \
   -r "$PROJECT_ROOT/backend/requirements.txt" \
   --quiet
@@ -35,7 +35,6 @@ cp -r "$PROJECT_ROOT/corpus" "$BUILD_DIR/corpus"
 echo "==> Cleaning up unnecessary files..."
 find "$BUILD_DIR" -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
 find "$BUILD_DIR" -type d -name "*.dist-info" -exec rm -rf {} + 2>/dev/null || true
-find "$BUILD_DIR" -type d -name "tests" -exec rm -rf {} + 2>/dev/null || true
 find "$BUILD_DIR" -name "*.pyc" -delete 2>/dev/null || true
 
 echo "==> Creating zip..."
