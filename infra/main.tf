@@ -303,6 +303,26 @@ resource "aws_cloudfront_distribution" "frontend" {
     response_page_path = "/index.html"
   }
 
+  custom_error_response {
+    error_code            = 500
+    error_caching_min_ttl = 0
+  }
+
+  custom_error_response {
+    error_code            = 502
+    error_caching_min_ttl = 0
+  }
+
+  custom_error_response {
+    error_code            = 503
+    error_caching_min_ttl = 0
+  }
+
+  custom_error_response {
+    error_code            = 504
+    error_caching_min_ttl = 0
+  }
+
   restrictions {
     geo_restriction { restriction_type = "none" }
   }
