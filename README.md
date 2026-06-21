@@ -4,7 +4,7 @@ AI SRE agent that analyzes logs and stack traces, identifies root causes, and su
 
 **Live Demo**: https://d2r49pwqfms6ra.cloudfront.net
 
-Built with Gemini 2.5 Flash (function calling), RAG over a precomputed error-pattern corpus, and a React frontend — fully hosted on AWS.
+Built with Gemini 3.5 Flash (function calling), RAG over a precomputed error-pattern corpus, and a React frontend — fully hosted on AWS.
 
 ## Architecture
 
@@ -213,7 +213,7 @@ Everything runs within free tier limits:
 
 | Component | Free tier limit | This project's usage |
 |-----------|----------------|---------------------|
-| Gemini 2.5 Flash | Free forever | ~30 requests/day max |
+| Gemini 3.5 Flash | Free forever | ~30 requests/day max |
 | Lambda | 1M requests + 400K GB-sec/month | Minimal |
 | API Gateway | 1M requests/month | Minimal |
 | S3 | 5 GB storage | ~64 MB |
@@ -226,7 +226,7 @@ This project is proprietary. You may view the source code, but copying, modifyin
 
 ## Tech Stack
 
-- **LLM**: Gemini 2.5 Flash via Google AI API (function calling)
+- **LLM**: Gemini 3.5 Flash via Google AI API (function calling)
 - **Backend**: Python, FastAPI, Mangum
 - **Frontend**: React, Vite, TypeScript
 - **RAG**: scikit-learn TF-IDF, numpy, cosine similarity
