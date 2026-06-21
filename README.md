@@ -158,6 +158,10 @@ cd infra && terraform destroy -var="gemini_api_key=$GEMINI_API_KEY"
 | CloudWatch | Free tier |
 | Vercel | Free (hobby) |
 
+## License
+
+This project is proprietary. You may view the source code, but copying, modifying, or distributing it is not permitted. See [LICENSE](LICENSE) for details.
+
 ## Tech Stack
 
 - **LLM**: Gemini 2.5 Flash via Google AI API (function calling)
