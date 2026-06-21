@@ -12,7 +12,7 @@ import requests
 from backend.logging.tracker import CostTracker
 
 MAX_TOOL_CALLS = 3
-MODEL = "gemini-2.5-flash"
+MODEL = "gemini-3.5-flash"
 API_BASE = "https://generativelanguage.googleapis.com/v1beta"
 
 TOOL_DECLARATION = {
