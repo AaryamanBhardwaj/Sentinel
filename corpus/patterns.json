@@ -1,0 +1,182 @@
+[
+  {
+    "id": "OOM_JAVA_HEAP",
+    "title": "Java OutOfMemoryError: Java heap space",
+    "pattern": "java.lang.OutOfMemoryError: Java heap space",
+    "root_cause": "JVM heap exhausted — usually a memory leak or undersized -Xmx",
+    "category": "memory",
+    "fix": "Profile with jmap/MAT to find the leak. Short-term: increase -Xmx. Long-term: fix the allocation pattern.",
+    "tags": ["java", "jvm", "memory", "oom", "heap"]
+  },
+  {
+    "id": "K8S_OOMKILLED",
+    "title": "Kubernetes OOMKilled",
+    "pattern": "OOMKilled exit code 137",
+    "root_cause": "Container exceeded its memory limit and was killed by the kernel OOM killer",
+    "category": "memory",
+    "fix": "Increase the container memory limit, or reduce the application's memory footprint. Check for memory leaks.",
+    "tags": ["kubernetes", "container", "memory", "oom", "137", "crashloopbackoff"]
+  },
+  {
+    "id": "PG_CONN_REFUSED",
+    "title": "PostgreSQL connection refused",
+    "pattern": "could not connect to server: Connection refused",
+    "root_cause": "PostgreSQL is not running, not listening on the expected port, or a firewall/security group is blocking the connection",
+    "category": "network",
+    "fix": "Verify the database is running (pg_isready). Check listen_addresses in postgresql.conf. Verify security groups allow traffic on port 5432.",
+    "tags": ["postgres", "connection", "network", "database", "5432"]
+  },
+  {
+    "id": "TLS_CERT_EXPIRED",
+    "title": "TLS certificate expired",
+    "pattern": "certificate has expired",
+    "root_cause": "The TLS certificate has passed its expiry date and clients are rejecting the connection",
+    "category": "security",
+    "fix": "Renew the certificate. Set up automated renewal (certbot, ACM). Add a certificate expiry monitor.",
+    "tags": ["tls", "ssl", "certificate", "security", "https", "expired"]
+  },
+  {
+    "id": "DISK_FULL",
+    "title": "No space left on device",
+    "pattern": "No space left on device",
+    "root_cause": "The filesystem is full — often due to unrotated logs, large temp files, or a growing database",
+    "category": "storage",
+    "fix": "Identify large files with du -sh /* | sort -rh. Clean up logs and temp files. Add log rotation and disk usage alerts.",
+    "tags": ["disk", "storage", "filesystem", "logs", "ENOSPC"]
+  },
+  {
+    "id": "DNS_RESOLUTION_FAILURE",
+    "title": "DNS resolution failure",
+    "pattern": "Name or service not known",
+    "root_cause": "DNS lookup failed — the hostname doesn't resolve. Could be a misconfigured service URL, DNS server outage, or network partition",
+    "category": "network",
+    "fix": "Verify the hostname is correct. Check /etc/resolv.conf and DNS server availability. Try nslookup/dig to isolate DNS vs network issues.",
+    "tags": ["dns", "resolution", "network", "hostname", "nslookup"]
+  },
+  {
+    "id": "CONN_TIMEOUT",
+    "title": "Connection timed out",
+    "pattern": "Connection timed out",
+    "root_cause": "TCP connection could not be established within the timeout window — typically a firewall drop, wrong port, or the target host is down",
+    "category": "network",
+    "fix": "Check if the target is reachable (telnet/nc). Verify security groups and NACLs. Check if the service is listening on the expected port.",
+    "tags": ["timeout", "connection", "network", "firewall", "tcp"]
+  },
+  {
+    "id": "CONN_RESET",
+    "title": "Connection reset by peer",
+    "pattern": "Connection reset by peer",
+    "root_cause": "The remote end forcibly closed the TCP connection — often caused by a crashed service, load balancer timeout, or TLS mismatch",
+    "category": "network",
+    "fix": "Check the remote service's health and logs. Verify TLS versions match. Check load balancer idle timeout settings.",
+    "tags": ["connection", "reset", "tcp", "network", "peer"]
+  },
+  {
+    "id": "PYTHON_IMPORT_ERROR",
+    "title": "Python ModuleNotFoundError",
+    "pattern": "ModuleNotFoundError: No module named",
+    "root_cause": "A Python dependency is missing from the runtime environment — either not installed, wrong virtualenv, or a packaging issue",
+    "category": "config",
+    "fix": "Verify the correct virtualenv is activated. Run pip install -r requirements.txt. Check that the package name matches (some differ between pip name and import name).",
+    "tags": ["python", "import", "module", "dependency", "pip", "virtualenv"]
+  },
+  {
+    "id": "DOCKER_IMAGE_PULL",
+    "title": "Docker image pull failure",
+    "pattern": "Error response from daemon: pull access denied",
+    "root_cause": "Docker cannot pull the image — either the image doesn't exist, the tag is wrong, or registry authentication failed",
+    "category": "config",
+    "fix": "Verify the image name and tag. Run docker login to authenticate. Check IAM/service account permissions for private registries.",
+    "tags": ["docker", "image", "pull", "registry", "authentication", "ecr"]
+  },
+  {
+    "id": "MYSQL_TOO_MANY_CONNECTIONS",
+    "title": "MySQL too many connections",
+    "pattern": "Too many connections",
+    "root_cause": "MySQL has hit its max_connections limit — usually caused by connection leaks, missing connection pooling, or a traffic spike",
+    "category": "application",
+    "fix": "Check for connection leaks (connections opened but never closed). Implement connection pooling. As a short-term fix, increase max_connections.",
+    "tags": ["mysql", "connections", "database", "pool", "max_connections"]
+  },
+  {
+    "id": "REDIS_MAXMEMORY",
+    "title": "Redis OOM - maxmemory reached",
+    "pattern": "OOM command not allowed when used memory > 'maxmemory'",
+    "root_cause": "Redis has hit its maxmemory limit and the eviction policy is rejecting new writes",
+    "category": "memory",
+    "fix": "Review the eviction policy (maxmemory-policy). Increase maxmemory if appropriate. Check for key patterns that are growing unbounded.",
+    "tags": ["redis", "memory", "maxmemory", "eviction", "cache"]
+  },
+  {
+    "id": "NPM_EACCES",
+    "title": "npm EACCES permission denied",
+    "pattern": "EACCES: permission denied",
+    "root_cause": "npm is trying to write to a directory it doesn't have permission for — usually a global install without proper prefix setup",
+    "category": "config",
+    "fix": "Use nvm to manage Node versions (avoids global permission issues). Or configure npm prefix to a user-owned directory.",
+    "tags": ["npm", "node", "permissions", "EACCES", "install"]
+  },
+  {
+    "id": "K8S_CRASHLOOP",
+    "title": "Kubernetes CrashLoopBackOff",
+    "pattern": "CrashLoopBackOff",
+    "root_cause": "The container keeps crashing and Kubernetes is backing off restart attempts. Root cause is in the container itself — check its logs",
+    "category": "application",
+    "fix": "Run kubectl logs <pod> --previous to see the crash output. Common causes: missing env vars, failed health checks, unhandled exceptions at startup.",
+    "tags": ["kubernetes", "crashloop", "container", "restart", "backoff"]
+  },
+  {
+    "id": "SEGFAULT",
+    "title": "Segmentation fault (core dumped)",
+    "pattern": "Segmentation fault",
+    "root_cause": "The process accessed memory it doesn't own — typically a bug in native code, a corrupted binary, or incompatible shared libraries",
+    "category": "application",
+    "fix": "Check for recent deployments or library updates. Run the binary under gdb/valgrind. Verify shared library compatibility with ldd.",
+    "tags": ["segfault", "crash", "memory", "native", "core dump", "sigsegv"]
+  },
+  {
+    "id": "LAMBDA_TIMEOUT",
+    "title": "AWS Lambda timeout",
+    "pattern": "Task timed out after",
+    "root_cause": "Lambda function exceeded its configured timeout — usually due to slow downstream calls, cold starts, or inefficient code",
+    "category": "application",
+    "fix": "Increase the timeout if the workload is legitimately slow. Add timeouts to downstream HTTP calls. Consider provisioned concurrency for cold-start-sensitive functions.",
+    "tags": ["lambda", "timeout", "aws", "serverless", "cold start"]
+  },
+  {
+    "id": "NGINX_502",
+    "title": "Nginx 502 Bad Gateway",
+    "pattern": "502 Bad Gateway",
+    "root_cause": "Nginx could not get a valid response from the upstream server — the backend is down, overloaded, or returning malformed responses",
+    "category": "network",
+    "fix": "Check upstream server health and logs. Verify proxy_pass target is correct. Check for upstream timeout settings in nginx.conf.",
+    "tags": ["nginx", "502", "gateway", "proxy", "upstream", "reverse proxy"]
+  },
+  {
+    "id": "GC_PAUSE",
+    "title": "Long GC pause / Stop-the-world",
+    "pattern": "GC pause",
+    "root_cause": "JVM garbage collection is taking too long, causing application latency spikes — often due to large heaps or too many long-lived objects",
+    "category": "memory",
+    "fix": "Review GC logs (-Xlog:gc*). Consider switching GC algorithm (G1/ZGC). Reduce object allocation rate. Profile with async-profiler.",
+    "tags": ["java", "gc", "garbage collection", "pause", "latency", "jvm"]
+  },
+  {
+    "id": "PERMISSION_DENIED_FILE",
+    "title": "Permission denied on file access",
+    "pattern": "Permission denied",
+    "root_cause": "The process does not have the required file system permissions — often caused by running as the wrong user or incorrect file ownership",
+    "category": "config",
+    "fix": "Check file ownership (ls -la) and the user the process runs as. Fix with chown/chmod. In containers, check the USER directive in the Dockerfile.",
+    "tags": ["permission", "denied", "file", "ownership", "chmod", "chown"]
+  },
+  {
+    "id": "SSL_HANDSHAKE_FAILURE",
+    "title": "SSL/TLS handshake failure",
+    "pattern": "SSL: CERTIFICATE_VERIFY_FAILED",
+    "root_cause": "TLS handshake failed — usually a certificate chain issue, expired cert, hostname mismatch, or missing CA bundle",
+    "category": "security",
+    "fix": "Verify the certificate chain with openssl s_client. Check that the CA bundle is up to date. Ensure the hostname matches the certificate's SAN/CN.",
+    "tags": ["ssl", "tls", "handshake", "certificate", "verify", "ca bundle"]
+  }
+]

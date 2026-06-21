@@ -1,0 +1,72 @@
+[
+  {
+    "id": "eval_001",
+    "input": "Exception in thread \"main\" java.lang.OutOfMemoryError: Java heap space\n\tat com.example.DataProcessor.loadAll(DataProcessor.java:142)\n\tat com.example.Main.main(Main.java:28)",
+    "expected_category": "memory",
+    "expected_keywords": ["heap", "memory"],
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_002",
+    "input": "psycopg2.OperationalError: could not connect to server: Connection refused\n\tIs the server running on host \"db.internal\" and accepting TCP/IP connections on port 5432?",
+    "expected_category": "network",
+    "expected_keywords": ["connection", "postgres"],
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_003",
+    "input": "kubernetes pod status: CrashLoopBackOff\nLast state: terminated with exit code 137\nReason: OOMKilled\nContainer memory limit: 256Mi\nActual usage at termination: 258Mi",
+    "expected_category": "memory",
+    "expected_keywords": ["OOMKilled", "memory limit"],
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_004",
+    "input": "nginx error log:\n2024/03/15 14:22:01 [error] 1234#0: *5678 upstream prematurely closed connection while reading response header from upstream, client: 10.0.1.50, upstream: \"http://127.0.0.1:8080/api/health\"\nUsers are reporting intermittent 502 errors.",
+    "expected_category": "network",
+    "expected_keywords": ["upstream", "502"],
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_005",
+    "input": "requests.exceptions.SSLError: HTTPSConnectionPool(host='api.partner.com', port=443): Max retries exceeded with url: /v2/data (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1131)')))",
+    "expected_category": "security",
+    "expected_keywords": ["certificate", "expired"],
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_006",
+    "input": "write /var/log/app/service.log: No space left on device\nMultiple services failing with EIO errors.\ndf shows /var at 100% usage.",
+    "expected_category": "storage",
+    "expected_keywords": ["disk", "space"],
+    "difficulty": "easy"
+  },
+  {
+    "id": "eval_007",
+    "input": "DURATION: 30015.89 ms\nEND RequestId: abc-123\nREPORT RequestId: abc-123 Duration: 30015.89 ms Billed Duration: 30000 ms Memory Size: 256 MB Max Memory Used: 89 MB\n2024-03-15T10:00:00.000Z abc-123 Task timed out after 30.02 seconds",
+    "expected_category": "application",
+    "expected_keywords": ["timeout", "lambda"],
+    "difficulty": "medium"
+  },
+  {
+    "id": "eval_008",
+    "input": "com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure\nThe last packet sent successfully to the server was 0 milliseconds ago.\nCaused by: java.net.ConnectException: Connection timed out (Connection timed out)\nApplication has 200 active database connections, connection pool max is 50.\nThis started after yesterday's traffic spike from the marketing campaign.",
+    "expected_category": "network",
+    "expected_keywords": ["connection", "pool"],
+    "difficulty": "hard"
+  },
+  {
+    "id": "eval_009",
+    "input": "Fatal error: runtime: out of memory\nruntime.throw({0x1a2b3c, 0x20})\n\truntime/panic.go:1047\ngoroutine 1 [running]:\nruntime.mallocgc(0x40000000, 0x0, false)\n\truntime/malloc.go:1075\n\nKubernetes event: Pod restarted 5 times in the last hour.\nNo OOMKilled event — the process is exiting before hitting the container limit.",
+    "expected_category": "memory",
+    "expected_keywords": ["memory", "goroutine"],
+    "difficulty": "hard"
+  },
+  {
+    "id": "eval_010",
+    "input": "Traceback (most recent call last):\n  File \"/app/main.py\", line 12, in <module>\n    from app.services.ml_pipeline import ModelRunner\n  File \"/app/services/ml_pipeline.py\", line 3, in <module>\n    import torch\nModuleNotFoundError: No module named 'torch'\n\nThis works fine locally but fails in the Docker container after rebuilding the image.",
+    "expected_category": "config",
+    "expected_keywords": ["module", "dependency"],
+    "difficulty": "medium"
+  }
+]
