@@ -2,8 +2,6 @@
 
 AI SRE agent that analyzes logs and stack traces, identifies root causes, and suggests fixes.
 
-**Live Demo**: https://d2r49pwqfms6ra.cloudfront.net
-
 Built with Gemini 3.5 Flash (function calling), RAG over a precomputed error-pattern corpus, and a React frontend — fully hosted on AWS.
 
 ## Architecture
